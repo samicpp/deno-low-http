@@ -16,10 +16,14 @@ export class NetStream extends Stream{
         return true;
     };
 
+    remoteAddr(){
+        return this.#conn.remoteAddr;
+    }
+
     close(){
         this.#conn.close();
         super.close();
-    }
+    };
 
     constructor(conn:Deno.Conn){
         super({read:()=>this.#read(),write: c=>this.#write(c)});

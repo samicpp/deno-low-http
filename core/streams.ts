@@ -29,12 +29,12 @@ export class Stream{
     async read(obj: {size?: number,until?: Uint8Array}={}): Promise<Uint8Array<ArrayBufferLike>|null>{
         if(this.#closed)return null;
         const {size,until}={size:1, until: new Uint8Array(),...obj};
-        let tot:number[]=[]; // is of type Uint8[]
+        let tot:number[]=[];//new Uint8Array(size); // is of type Uint8[]
         let matchIndex=0;
         let match=false;
         if(this.#readMode=="char"){
             for(let i=0;i<size;i++){
-                let r; tot.push(r=await this.#read().catch(e=>0));
+                let r; tot[i]=r=await this.#read().catch(e=>0);
 
                 if(!until||until?.length==0){
                     //continue;
@@ -70,4 +70,6 @@ export class Stream{
         this.#write=async function(c){return write(c)};
         this.#addr={...this.#addr,...addr};
     };
-}
+};
+
+//export class CachableStream{}
